@@ -29,6 +29,6 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
 ![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/Homework1/Sideview.jpeg)
 ![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/Homework1/Frontview.jpeg)
 
-### [Video](https://youtu.be/ikgGT9MWE4Q)
+### [Video](https://youtu.be/IK3PnfRw_Ss)
 
 
