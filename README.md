@@ -29,7 +29,7 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
 ![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/Homework1/Sideview.jpeg)
 ![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/Homework1/Frontview.jpeg)
 
-**!** Common anode modifications: Put the common pin to 5V instead of GND.
+**!** Common anode modifications: Put the common pin to 5V instead of GND (changing the wire per logic).
 
 ### [Video](https://youtu.be/IK3PnfRw_Ss)
 
