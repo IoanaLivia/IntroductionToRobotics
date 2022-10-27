@@ -32,5 +32,4 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
 **!** Common anode modifications: Put the common pin to 5V instead of GND (changing the wire per logic).
 
 ### [Video](https://youtu.be/IK3PnfRw_Ss)
-
-
+[![](https://img.youtube.com/vi/IK3PnfRw_Ss/0.jpg)](https://www.youtube.com/watch?v=IK3PnfRw_Ss)
