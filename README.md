@@ -18,7 +18,7 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
 
 * Update README with task requirements, picture of setup, link to video showcasing functionality.
 
-### Coding Task
+### [Coding Task](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Homework%20%5BCode%5D/Homework1/Homework_1/Homework_1.ino)
 
 * Coding style is at utmost importance. Check consistency in style and spacing.
 
