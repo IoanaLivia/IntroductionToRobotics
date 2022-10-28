@@ -38,7 +38,7 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
 [![](https://img.youtube.com/vi/IK3PnfRw_Ss/0.jpg)](https://www.youtube.com/watch?v=IK3PnfRw_Ss)
 
   </details>
-<details>
+<details open>
   <summary> Homework #2: Building the traffic lights for a crosswalk </summary>
 
 ## Building the traffic lights for a crosswalk
