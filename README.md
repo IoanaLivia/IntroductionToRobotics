@@ -78,7 +78,7 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
      - Cars : Red Light
      - People : Blinking Green Light
      - Sound : Beeping Sound from the buzzer at a constant interval faster than the beeping in State 3
-     - Duration : 8 seconds
+     - Duration : 4 seconds
      
      
 **!** Pressing the button in any state other than state 1 should **NOT** yield any actions.
