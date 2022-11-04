@@ -11,12 +11,12 @@ const int ledPinCarsRed = 5,
 const int ledPinPeopleRed = 12,
           ledPinPeopleGreen = 13;
 
-const int buzzToneCrossing = 1000,
-          buzzToneFastCross = 700;
+const int buzzToneCrossing = 700,
+          buzzToneFastCross = 1000;
 
-const int buzzerIntervalCrossing = 1000,
-          buzzerIntervalFastCross = 500,
-          blinkIntervalFastCross = 500;
+const int buzzerIntervalCrossing = 600,
+          buzzerIntervalFastCross = 300,
+          blinkIntervalFastCross = 300;
 
 const int debounceDelay = 50;
 
@@ -33,6 +33,7 @@ bool waitingStateInitiated = false;
 
 unsigned long lastDebounceTime = 0,
               lastStateChange = 0,
+              lastBlinkTime = 0,
               lastBuzzedTime = 0;
 
 // Variables corresponding for the changeable states of the entities during the process
