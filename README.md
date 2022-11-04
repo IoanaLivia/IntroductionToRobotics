@@ -87,10 +87,12 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
 
   * Update README with task requirements, picture of setup, link to video showcasing functionality and upload code to Github repo.
 
-### Coding Task
+### [Coding Task](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Homework%20%5BCode%5D/%232/Homework_2/Homework_2.ino)
 
   Coding style is of utmost importance. An important coding challenge present in this task is using millis() instead of delay().
   *Addendum* : using interrupts (properly coded: with debounce etc) yields a bonus.
+  
+  **!** Prints of Serial Monitor Output that showcase functionality can be found [here](https://github.com/IoanaLivia/IntroductionToRobotics/tree/main/Homework%20%5BCode%5D/%232/Serial_2).
   
 ### Picture of setup
 
