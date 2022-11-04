@@ -209,7 +209,7 @@ void writeLedStateValuesToPins() {
 }
 
 void blinkLed(const int ledPin) {
-  if (millis() - lastBlinkTime == blinkIntervalFastCross) {
+  if (millis() - lastBlinkTime >= blinkIntervalFastCross) {
       lastBlinkState = !lastBlinkState;
       lastBlinkTime = millis();
   }
@@ -218,7 +218,7 @@ void blinkLed(const int ledPin) {
 }
 
 void setBuzzerState(int buzzerInterval) {
-  if (millis() - lastBuzzedTime == buzzerInterval) {
+  if (millis() - lastBuzzedTime >= buzzerInterval) {
       buzzerState = !buzzerState;
       lastBuzzedTime = millis();
   }
