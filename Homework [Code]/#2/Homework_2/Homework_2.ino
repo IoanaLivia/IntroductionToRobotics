@@ -23,10 +23,10 @@ const int debounceDelay = 50;
 // Variable corresponding to the current state : 1 - default, 2 - waiting, 3 - crossing, 4 - fast crossing
 int stateNumber = 1;
 
-int countdownToInitiateWaiting = 8000;
-int durationWaiting = 3000;
-int durationCrossing = 8000;
-int durationFastCross = 4000;
+int countdownToInitiateWaiting = 8000,
+    durationWaiting = 3000,
+    durationCrossing = 8000,
+    durationFastCross = 4000;
 
 // Boolean variable: true - countdown (8 seconds) is over and the waiting state can be intiated, false - countdown is not over
 bool waitingStateInitiated = false;
@@ -48,7 +48,7 @@ byte ledStateCarsGreen = LOW,
      ledStateCarsRed = LOW;
 
 volatile byte buzzerState = HIGH,
-              lastBlinkState = HIGH;
+              blinkState = HIGH;
 
 void setup() {
   pinMode(buttonPin,INPUT_PULLUP);
@@ -169,7 +169,7 @@ void transitionToState(const int nextState) {
   }
   else if (nextState == 4) {
     buzzerState = LOW;
-    lastBlinkState = HIGH;
+    blinkState = HIGH;
     lastStateChange = millis();
     lastBuzzedTime = millis();
     lastBlinkTime = millis();
@@ -180,7 +180,7 @@ void transitionToState(const int nextState) {
   }
   else {
     resetBuzzer();
-    lastBlinkState = HIGH;
+    blinkState = HIGH;
     lastButtonState = LOW;
     lastStateChange = millis();
 
@@ -210,11 +210,11 @@ void writeLedStateValuesToPins() {
 
 void blinkLed(const int ledPin) {
   if (millis() - lastBlinkTime >= blinkIntervalFastCross) {
-      lastBlinkState = !lastBlinkState;
+      blinkState = !blinkState;
       lastBlinkTime = millis();
   }
 
-  digitalWrite(ledPin, lastBlinkState);
+  digitalWrite(ledPin, blinkState);
 }
 
 void setBuzzerState(int buzzerInterval) {
