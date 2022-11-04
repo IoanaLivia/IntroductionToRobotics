@@ -29,8 +29,7 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
 
 **!** The following setup corresponds to a common cathode RGB led. 
 
-![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/Homework1/Sideview.jpeg)
-![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/Homework1/Frontview.jpeg)
+![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%231/%231_Upperview.jpeg)
 
 **!** Common anode modifications: Put the common pin to 5V instead of GND (changing the wire per logic).
 
@@ -96,7 +95,8 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
   
 ### Picture of setup
 
-### Video
-  
+![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%232/%232_upperview.jpeg)
+### [Video](https://youtu.be/kKzc9sNgPQA)
+[![](https://img.youtube.com/vi/kKzc9sNgPQA/0.jpg)](https://www.youtube.com/watch?v=IK3PnfRw_Ss)
 </details>
 
