@@ -95,6 +95,7 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
   
 ### Picture of setup
 
+![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%232/%232_upperview.jpeg)
 ### Video
   
 </details>
