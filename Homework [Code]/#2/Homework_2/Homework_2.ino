@@ -105,7 +105,7 @@ void setDefaultState(){
   lastButtonState = reading;
 }
 
-void setWaitingState(){
+void setWaitingState() {
   if ((millis() - lastStateChange) == countdownToInitiateWaiting) {
     waitingStateInitiated = true;
     lastStateChange = millis();
@@ -124,7 +124,7 @@ void setWaitingState(){
   }
 }
 
-void setCrossingState(){
+void setCrossingState() {
   if (millis() - lastStateChange < durationCrossing) {
       setLedStates(HIGH, LOW, LOW, LOW, HIGH);
       setBuzzerState(buzzerIntervalCrossing);
