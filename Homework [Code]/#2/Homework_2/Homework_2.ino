@@ -47,8 +47,8 @@ byte ledStateCarsGreen = LOW,
      ledStateCarsYellow = LOW,
      ledStateCarsRed = LOW;
 
-volatile byte buzzerState = HIGH,
-              blinkState = HIGH;
+byte buzzerState = HIGH,
+     blinkState = HIGH;
 
 void setup() {
   pinMode(buttonPin,INPUT_PULLUP);
