@@ -37,7 +37,7 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
 [![](https://img.youtube.com/vi/IK3PnfRw_Ss/0.jpg)](https://www.youtube.com/watch?v=IK3PnfRw_Ss)
 
   </details>
-<details open>
+<details>
   <summary> Homework #2: Building the traffic lights for a crosswalk </summary>
 
 ## Building the traffic lights for a crosswalk
@@ -100,3 +100,63 @@ Introduction to Robotics laboratory homeworks, taken in the 3rd year at the Facu
 [![](https://img.youtube.com/vi/M8HzgoxRh9A/0.jpg)](https://youtu.be/M8HzgoxRh9A)
 </details>
 
+
+<details open>
+  <summary> Homework #3: Drawing on 7 segment display</summary>
+
+### Drawing on 7 segment display
+  
+### Components
+* 7-segment display
+* Joystick
+* Resistors and wires (per logic)
+
+### Technical Task
+
+* Use the joystick to control the position ofthe segment and *draw* on the display.  The movement between segments should be natural (meaning they should jump from the current positiononly to neighbors, but without passing through *walls*.
+
+ + State 1 : Default State (also initiated after a button press in State 2)
+  
+     - Current segment: Blinking
+     - Joystick: Can be used to move from one position to its neighbours.
+     - Clicking the joystick:
+        * *Short* pressing : toggles State 2.
+        * *Long* pressing : resets the entired display by turning all segments OFF and moving the current position to the decimal point.
+  
+  + State 2 : Initiated after a button press in State 1
+ 
+     - Current segment: Stops blinking ; Adopts the state of the segment before selection
+     (ON / OFF)
+     - Joystick: Toggling the X (or Y, depending on personal preference regarding implementation) axis should change the segment state to the opposite state ( ON -> OFF, OFF -> ON).
+     - Clicking the joystick: save the segment state and exit back to State 1.
+     
+* Mentions
+
+<ol>
+  <li> Long pressing the button to reset should only be available in State 1. </li>
+  
+  <li> Joystick movements should be done with toggle, as presented in the laboratory. (joy-Moved, etc) </li>
+</ol>
+
+
+| Current Segment     | UP          | DOWN        | LEFT        | RIGHT       |
+| ----------- | ----------- | ----------- | ----------- | ----------- |
+| a           | N/A         | g           | f           | b           |
+| b           | a           | g           | f           | N/A         |
+| c           | g           | d           | e           | dp          |
+| d           | g           | N/A         | e           | c           |
+| e           | g           | d           | N/A         | c           |    
+| f           | a           | g           | N/A         | b           |
+| g           | a           | d           | N/A         | N/A         |
+| dp          | N/A         | N/A         | c           | N/A         |
+  
+
+### Publishing Task
+
+  * Update README with task requirements, picture of setup, link to video showcasing functionality and upload code to Github repo.
+
+### Coding Task
+
+  Coding style is of utmost importance. An important coding challenge present in this task is using millis() instead of delay().
+
+</details>
