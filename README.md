@@ -138,7 +138,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
   <li> Joystick movements should be done with toggle, as presented in the laboratory. (joy-Moved, etc) </li>
 </ol>
 
-* Order of Segments
+* Mapping each segment to its neighbours
 
 | Current Segment     | UP          | DOWN        | LEFT        | RIGHT       |
 | ----------- | ----------- | ----------- | ----------- | ----------- |
