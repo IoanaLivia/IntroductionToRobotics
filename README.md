@@ -6,7 +6,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
     Homework #1 : Controlling RGB Led
   </summary>
 
-### Controlling RGB Led
+## Controlling RGB Led
   
 ### Components
 * RGB Led 
@@ -104,7 +104,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 <details open>
   <summary> Homework #3: Drawing on 7 segment display</summary>
 
-### Drawing on 7 segment display
+## Drawing on 7 segment display
   
 ### Components
 * 7-segment display
