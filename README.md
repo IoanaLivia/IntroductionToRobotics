@@ -127,7 +127,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
  
      - Current segment: Stops blinking ; Adopts the state of the segment before selection
      (ON / OFF)
-     - Joystick: Toggling the X (or Y, depending on personal preference regarding implementation) axis should change the segment state to the opposite state ( ON -> OFF, OFF -> ON).
+     - Joystick: Toggling the X (or Y, depending on personal preference regarding implementation) axis should change the segment state to the opposite state (ON -> OFF, OFF -> ON) .
      - Clicking the joystick: save the segment state and exit back to State 1.
      
 * Mentions
