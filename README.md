@@ -113,7 +113,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 
 ### Technical Task
 
-* Use the joystick to control the position ofthe segment and *draw* on the display.  The movement between segments should be natural (meaning they should jump from the current positiononly to neighbors, but without passing through *walls*.
+* Use the joystick to control the position of the segment and *draw* on the display.  The movement between segments should be natural (meaning they should jump from the current positiononly to neighbors, but without passing through *walls*.
 
  + State 1 : Default State (also initiated after a button press in State 2)
   
