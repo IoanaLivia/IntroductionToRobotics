@@ -117,18 +117,18 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 
  + State 1 : Default State (also initiated after a button press in State 2)
   
-     - Current segment: Blinking
-     - Joystick: Can be used to move from one position to its neighbours.
-     - Clicking the joystick:
+     - Current segment : Blinking
+     - Joystick : Can be used to move from one position to its neighbours.
+     - Clicking the joystick :
         * *Short* pressing : toggles State 2.
         * *Long* pressing : resets the entired display by turning all segments OFF and moving the current position to the decimal point.
   
   + State 2 : Initiated after a button press in State 1
  
-     - Current segment: Stops blinking ; Adopts the state of the segment before selection
+     - Current segment : Stops blinking ; Adopts the state of the segment before selection
      (ON / OFF)
-     - Joystick: Toggling the X (or Y, depending on personal preference regarding implementation) axis should change the segment state to the opposite state (ON -> OFF, OFF -> ON) .
-     - Clicking the joystick: save the segment state and exit back to State 1.
+     - Joystick : Toggling the X (or Y, depending on personal preference regarding implementation) axis should change the segment state to the opposite state (ON -> OFF, OFF -> ON) .
+     - Clicking the joystick : save the segment state and exit back to State 1.
      
 * Mentions
 
