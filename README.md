@@ -155,7 +155,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 
   * Update README with task requirements, picture of setup, link to video showcasing functionality and upload code to Github repo.
 
-### Coding Task
+### [Coding Task](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Homework%20%5BCode%5D/%233/Homework_3/Homework_3.ino)
 
   Coding style is of utmost importance. An important coding challenge present in this task is using millis() instead of delay().
 
@@ -163,4 +163,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 
 ### Picture of setup
 
-![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%233/3_upperview_1_20.jpg)
+![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%233/%233_upperview.JPG)
+
+### [Video](https://youtu.be/CPm8NraoFVo)
+[![](https://img.youtube.com/vi/CPm8NraoFVo/0.jpg)](https://www.youtube.com/watch?v=CPm8NraoFVo)
