@@ -81,7 +81,6 @@ int blinkInterval = 300;
 // number of possible directions of joystick movement
 const int noOfDirections = 4;
 
-
 int currSeg = 7;
 
 const int segSize = 8;
@@ -150,7 +149,7 @@ int getSwitchPress(){
     if (reading != lastSwState) {
       lastDebounceTime = millis();
     }
-    
+
     lastSwState = reading;
 
     if (millis() - lastDebounceTime >= debounceDelay) {
