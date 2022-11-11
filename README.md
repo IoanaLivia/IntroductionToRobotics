@@ -165,5 +165,5 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 
 ![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%233/%233_upperview.JPG)
 
-### [Video](https://youtu.be/ojF3ThmzI-s)
-[![](https://img.youtube.com/vi/ojF3ThmzI-s/0.jpg)](https://www.youtube.com/watch?v=ojF3ThmzI-s)
+### [Video](https://youtu.be/CPm8NraoFVo)
+[![](https://img.youtube.com/vi/CPm8NraoFVo/0.jpg)](https://www.youtube.com/watch?v=CPm8NraoFVo)
