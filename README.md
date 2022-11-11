@@ -160,3 +160,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
   Coding style is of utmost importance. An important coding challenge present in this task is using millis() instead of delay().
 
 </details>
+
+### Picture of setup
+
+![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%233/3_upperview_1_20.jpg)
