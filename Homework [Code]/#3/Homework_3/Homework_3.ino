@@ -17,30 +17,27 @@
 #define LEFT 2
 #define RIGHT 3
 
-// joystick pins : digital pin connected to switch output and analog pins connected to X, Y output
-const int pinSW = 2;
-const int pinX = A1;
-const int pinY = A0;
-
-// segments pins
-const int pinA = 4;
-const int pinB = 5;
-const int pinC = 6;
-const int pinD = 7;
-const int pinE = 8;
-const int pinF = 9;
-const int pinG = 10;
-const int pinDP = 11;
-
-// variables for segment size
-const int segSize = 8,
-          noOfDigits = 10;
-
 bool commonAnode = false; 
 
-// byte state = HIGH;
-byte swState = LOW;
-byte lastSwState = LOW;
+// joystick pins : digital pin connected to switch output and analog pins connected to X, Y output
+const int pinSW = 2,
+          pinX = A1,
+          pinY = A0;
+
+// segments pins
+const int pinA = 4,
+          pinB = 5,
+          pinC = 6,
+          pinD = 7,
+          pinE = 8,
+          pinF = 9,
+          pinG = 10,
+          pinDP = 11;
+
+// variables corresponding to the current state of the blinking segment, current and last state of the switch
+byte blinkState = HIGH,
+     swState = LOW,
+     lastSwState = LOW;
 
 // joystick movement x axis and y axis initial, current and change values
 int initialXValue = 510,
@@ -50,56 +47,54 @@ int initialXValue = 510,
     xChange = 0,
     yChange = 0;
 
+// current state of the program, starts in first state
+int currState = FIRST_STATE;
+
 // boolean variable that is false if joystick is in its initial position and true if it moved in one of the defined above directions
 bool joyMoved = false;
 
 // minimum and maximum thresholds for joystick movement coordinates
-int minThreshold = 250;
-int maxThreshold = 750;
+int minThreshold = 250,
+    maxThreshold = 750;
 
-// number of possible directions of joystick movement
-const int noOfDirections = 4;
+// current and last joystick move based on direction of movement or NONE if it has not moved
+int joystickMove = NONE,
+    lastJoystickMove = NONE;
 
-// current segment that is selected
-int currSeg = 7;
-
-// current joystick move
-int joystickMove = NONE;
-
-// last joystick direction of movement or NONE if it has not moved
-int lastJoystickMove = NONE;
-
-
+// true if the short press delay has passed, false otherwise
 bool passedShortDelay = false;
 
-// current state of the program, starts in first state
-int currState = FIRST_STATE;
-
-
-unsigned long lastDebounceTime = 0;
-const int debounceDelayLong = 3000;
-const int debounceDelay = 25;
-
-byte blinkState = HIGH;
-
-// last time the segment blinked
-unsigned long lastBlinkTime = 0;
-
-// interval at which current segment is blinking in first state
-int blinkInterval = 300;
+// delays for long press and debounce
+const int debounceDelayLong = 3000,
+          debounceDelay = 25;
 
 // current press of the switch or NONE if it has not been pressed
 int switchPress = NONE;
 
-// Array that stores, for each segment, the corresponding pin.
+// last time for segment blink in first state and last time for debounce
+unsigned long lastBlinkTime = 0,
+              lastDebounceTime = 0;
+
+// interval at which current segment is blinking in first state
+int blinkInterval = 300;
+
+// number of possible directions of joystick movement
+const int noOfDirections = 4;
+
+
+int currSeg = 7;
+
+const int segSize = 8;
+
+// array that stores, for each segment, the corresponding pin.
 int segments[segSize] = { 
   pinA, pinB, pinC, pinD, pinE, pinF, pinG, pinDP
 };
 
-// Array that stores for each segment its current state, set or unset.
+// array that stores for each segment its current state, set or unset.
 byte segStates[segSize];
 
-// Columns correspond to possible directions (UP, DOWN, LEFT, RIGHT). Rows correspond to a-g segments in alphabetical order and the last row corresponds to dp.
+// columns correspond to possible directions (UP, DOWN, LEFT, RIGHT). Rows correspond to a-g segments in alphabetical order and the last row corresponds to dp.
 byte adjacencyMatrix[segSize][noOfDirections] = {
   {0,   6,   5,   1},
   {0,   6,   5,   1},
@@ -134,6 +129,7 @@ void parseCurrentState() {
   parseJoystickMovement();
 }
 
+// based on the pressing of the switch or the absence of it, has no impact, changes the state or resets
 void parseSwitchPress() {
   switchPress = getSwitchPress();
 
@@ -147,12 +143,14 @@ void parseSwitchPress() {
   }
 }
 
+// based on pressing history, returns corresponding type of press or NONE if absent
 int getSwitchPress(){
    int reading = digitalRead(pinSW);
 
     if (reading != lastSwState) {
       lastDebounceTime = millis();
     }
+    
     lastSwState = reading;
 
     if (millis() - lastDebounceTime >= debounceDelay) {
@@ -180,6 +178,7 @@ int getSwitchPress(){
     return NONE;
 }
 
+// based on the joystick movement and current state, resets or not the current segment or its state
 void parseJoystickMovement() {
   joystickMove = getJoystickMove();
 
@@ -197,6 +196,7 @@ void parseJoystickMovement() {
   lastJoystickMove = joystickMove;
 }
 
+// based on joystick coordinates, returns the corresponding direction of movement (UP, DOWN, LEFT, RIGHT) or NONE
 int getJoystickMove(){
   xValue = analogRead(pinX);
   yValue = analogRead(pinY);
@@ -241,6 +241,7 @@ void blinkSegment(){
   }
 }
 
+// displays all the segments depending on their current state, considering the necessary changes in case of a common anode
 void displaySegments(){
   for (int i = 0; i < segSize; i++) {
     if(currSeg == i && currState != SECOND_STATE){
@@ -257,12 +258,11 @@ void displaySegments(){
   }
 }
 
+// reset to the initial configuration : all segment states are LOW, the current segment corresponds to dp and the current state is the first state
 void reset() {
   for (int i = 0; i < segSize; i++) {
     segStates[i] = LOW;
   }
-
   currSeg = segSize - 1;
   currState = FIRST_STATE;
-  //lastDebounceTime = millis();
 }
