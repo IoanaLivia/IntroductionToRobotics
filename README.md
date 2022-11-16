@@ -135,7 +135,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 <ol>
   <li> Long pressing the button to reset should only be available in State 1. </li>
   
-  <li> Joystick movements should be done with toggle, as presented in the laboratory. (joy-Moved, etc) </li>
+  <li> Joystick movements should be done with toggle, as presented in the laboratory. </li>
 </ol>
 
 * Mapping each segment to its neighbours
@@ -204,7 +204,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 * Mentions
 
 <ol>
-  <li> Keep in mind that when changing the number,you  must  increment  it  for  each  joystick  movement  -  it  should  notwork continuosly increment if you keep the joystick in one position(aka with joyMoved). </li>
+  <li> Keep in mind that when changing the number, you must increment it for each joystick movement - it should not work continuosly increment if you keep the joystick in one position. </li>
   
 </ol>
 
