@@ -170,9 +170,9 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 </details>
 
 <details open>
-  <summary> Homework #4: Cycling through 4-digit 7 segment display with the possibility to set digits</summary>
+  <summary> Homework #4: Moving through 4-digit 7 segment display with the possibility to set digits</summary>
   
-## Cycling through 4-digit 7 segment display with the possibility to set digits
+## Moving through 4-digit 7 segment display with the possibility to set digits
   
 ### Components
 * 4 digit 7-segment display
