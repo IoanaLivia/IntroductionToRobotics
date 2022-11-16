@@ -199,7 +199,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
      
     + Reset : Toggled by long pressing the button in State 1
     
-      - All digits go back to 0 and the current position is set to the firs (rightmost) digit, in State 1.
+      - All digits go back to 0 and the current position is set to the first (rightmost) digit, in State 1.
 
 * Mentions
 
