@@ -216,7 +216,9 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 ### Coding Task
 
 ### Picture of setup
-![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%234/%234_upperview.jpg)
+![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%234/%234_upperview_10024x768.jpg)
+
+Alternative sizing : [512x384](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%234/%234_upperview.jpg) [1024x768](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%234/%234_upperview_10024x768.jpg)
 ### [Video](https://www.youtube.com/watch?v=y3L7GrxTdZA&ab_channel=IoanaLiviaPopescu)
 [![](https://img.youtube.com/vi/y3L7GrxTdZA/0.jpg)](https://www.youtube.com/watch?v=y3L7GrxTdZA&ab_channel=IoanaLiviaPopescu)
 
