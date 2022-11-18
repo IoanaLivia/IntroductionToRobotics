@@ -114,7 +114,6 @@ void setup() {
   pinMode(pinSW, INPUT_PULLUP);
 }
 
-
 void loop() {
   parseCurrentState();
   displaySegments();

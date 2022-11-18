@@ -101,7 +101,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 </details>
 
 
-<details open>
+<details>
   <summary> Homework #3: Drawing on 7 segment display</summary>
 
 ## Drawing on 7 segment display
@@ -135,7 +135,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 <ol>
   <li> Long pressing the button to reset should only be available in State 1. </li>
   
-  <li> Joystick movements should be done with toggle, as presented in the laboratory. (joy-Moved, etc) </li>
+  <li> Joystick movements should be done with toggle, as presented in the laboratory. </li>
 </ol>
 
 * Mapping each segment to its neighbours
@@ -159,11 +159,65 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 
   Coding style is of utmost importance. An important coding challenge present in this task is using millis() instead of delay().
 
-</details>
-
 ### Picture of setup
 
 ![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%233/%233_upperview.JPG)
 
 ### [Video](https://youtu.be/CPm8NraoFVo)
 [![](https://img.youtube.com/vi/CPm8NraoFVo/0.jpg)](https://www.youtube.com/watch?v=CPm8NraoFVo)
+
+
+</details>
+
+<details open>
+  <summary> Homework #4: Moving through 4-digit 7 segment display with the possibility to set digits</summary>
+  
+## Moving through 4-digit 7 segment display with the possibility to set digits
+  
+### Components
+* 4 digit 7-segment display
+* Joystick
+* 74hc595 shift registers
+* Resistors and wires (per logic)
+
+### Technical Task
+
+* Use the joystick to move through the 4 digit 7 segment displays digits, press the button to lock in on the current digitand use the other axis to increment or decrement the number. Keep the button pressed to reset all the digit values and the current position to thefirst digit in the first state.
+
+
+  + State 1 : Default State (also initiated after a button press in State 2)
+  
+     - Current decimal point : Blinking
+     - Joystick : Can be used to cycle through digits
+     - Clicking the joystick : Locks in the selected digit and enters State 2.
+  
+   + State 2 : Initiated after a button press in State 1
+  
+     - Current decimal point : ON
+     - Joystick : Can no longer be used to cycle through digits. Instead, using the other axis, can be used to increment/decrement the number on the current digit in HEX (0-F).
+     - Clicking the joystick : Returns to State 1.
+     
+    + Reset : Toggled by long pressing the button in State 1
+    
+      - All digits go back to 0 and the current position is set to the first (rightmost) digit, in State 1.
+
+* Mentions
+
+<ol>
+  <li> Keep in mind that when changing the number, you must increment it for each joystick movement - it should not work continuosly increment if you keep the joystick in one position. </li>
+  
+</ol>
+
+
+### Publishing Task
+
+  * Update README with task requirements, picture of setup, link to video showcasing functionality and upload code to Github repo.
+
+### Coding Task
+
+### Picture of setup
+
+### [Video](https://www.youtube.com/watch?v=y3L7GrxTdZA&ab_channel=IoanaLiviaPopescu)
+[![](https://img.youtube.com/vi/y3L7GrxTdZA/0.jpg)](https://www.youtube.com/watch?v=y3L7GrxTdZA&ab_channel=IoanaLiviaPopescu)
+
+ </details>
