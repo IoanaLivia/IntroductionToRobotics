@@ -213,7 +213,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 
   * Update README with task requirements, picture of setup, link to video showcasing functionality and upload code to Github repo.
 
-### Coding Task
+### [Coding Task](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Homework%20%5BCode%5D/%234/Homework_4/Homework_4.ino)
 
 ### Picture of setup
 ![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%234/%234_upperview_10024x768.jpg)
