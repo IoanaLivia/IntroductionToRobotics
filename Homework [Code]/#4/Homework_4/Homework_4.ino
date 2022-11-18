@@ -1,4 +1,4 @@
-// Move through a 4 digit 7-segment display and increment/decrement the numbers using a joystick
+// Move through a 4 digit 7-segment display and increment/decrement digits using a joystick with the possibility to lock in values
 
 // universal none value
 #define NONE -1
@@ -69,14 +69,13 @@ int switchPress = NONE;
 // true if the short press delay for switch press has passed, false otherwise
 bool passedShortDelay = false;
 
-const int debounceDelayLong = 3000,
+const int blinkInterval = 300,
+          debounceDelayLong = 3000,
           debounceDelay = 25,
           muxDelay = 1;
 
 unsigned long long lastBlinkTime = 0,
                    lastDebounceTime = 0;
-
-const int blinkInterval = 300;
 
 // bit position of DP segment
 const int bitPosDP = 0;
@@ -150,7 +149,7 @@ void parseSwitchPress() {
 }
 
 // based on pressing history, returns corresponding type of press or NONE if absent
-int getSwitchPress(){
+int getSwitchPress() {
    int reading = digitalRead(pinSW);
 
     if (reading != lastSwState) {
@@ -225,7 +224,7 @@ void parseJoystickMovement() {
 }
 
 // based on joystick coordinates, returns the corresponding direction of movement (UP, DOWN, LEFT, RIGHT) or NONE
-int getJoystickMove(){
+int getJoystickMove() {
   xValue = analogRead(pinX);
   yValue = analogRead(pinY);
 
@@ -262,7 +261,7 @@ int getJoystickMove(){
   return NONE;
 }
 
-void blinkDP(){
+void blinkDP() {
   if (millis() - lastBlinkTime >= blinkInterval) {
       blinkState = !blinkState;
       lastBlinkTime = millis();
@@ -270,11 +269,11 @@ void blinkDP(){
 }
 
 // displays the current configuration
-void showcaseDisplayValues(){
+void showcaseDisplayValues() {
   for (int i = 0; i < displayCount; ++i) {
     byte encodingValue = byteEncodings[displayValues[i]];
 
-    if (i == currDisplay && (blinkState || currState == SECOND_STATE)) {
+    if (i == currDisplay && (blinkState || currState == SECOND_STATE) ) {
       bitSet(encodingValue, bitPosDP);        
     }
     
