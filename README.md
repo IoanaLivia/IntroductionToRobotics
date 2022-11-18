@@ -203,8 +203,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 
 * Mentions
 
-<ol>
-  <li> Keep in mind that when changing the number, you must increment it for each joystick movement - it should not work continuosly increment if you keep the joystick in one position. </li>
+  Keep in mind that when changing the number, you must increment it for each joystick movement - it should not work continuosly increment if you keep the joystick in one position.
   
 </ol>
 
