@@ -255,7 +255,7 @@ Alternative sizing : [512x384](https://github.com/IoanaLivia/IntroductionToRobot
   * *Settings* :
     + Enter name: The name should be shown in highscore. (Can also be displayed somewhere else too.)
     
-    + Starting  level:  Set  the  starting  level  value.   The  idea  is  tobe able to start from a higher level as well.  Can be replaced with difficulty.
+    + Starting  level:  Set  the  starting  level  value.   The  idea  is  to be able to start from a higher level as well.  Can be replaced with difficulty.
     
     + LCD contrast control (optional, it replaces the potentiome-ter).  Save it to eeprom.
     
