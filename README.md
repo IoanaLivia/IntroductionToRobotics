@@ -236,9 +236,9 @@ Alternative sizing : [512x384](https://github.com/IoanaLivia/IntroductionToRobot
   
   ### Technical Task
   
-  Create a menu for your game, emphasis on the game.  Youshould scroll on the LCD with the joystick.  The menu should include the following functionality:
+  Create a menu for your game, emphasis on the game.  You should scroll on the LCD with the joystick.  The menu should include the following functionality:
   <ol>
-  <li>When powering up a game, a greeting message should be shown fora few moments.</li>
+  <li>When powering up a game, a greeting message should be shown for a few moments.</li>
   <li>Should contain roughly the following categories:
   
   * *Start game* : 
