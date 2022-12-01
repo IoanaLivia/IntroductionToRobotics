@@ -169,7 +169,7 @@ Introduction to Robotics laboratory homework, taken in the 3rd year at the Facul
 
 </details>
 
-<details open>
+<details>
   <summary> Homework #4: Moving through 4-digit 7 segment display with the possibility to set digits</summary>
   
 ## Moving through 4-digit 7 segment display with the possibility to set digits
@@ -221,4 +221,83 @@ Alternative sizing : [512x384](https://github.com/IoanaLivia/IntroductionToRobot
 ### [Video](https://www.youtube.com/watch?v=y3L7GrxTdZA&ab_channel=IoanaLiviaPopescu)
 [![](https://img.youtube.com/vi/y3L7GrxTdZA/0.jpg)](https://www.youtube.com/watch?v=y3L7GrxTdZA&ab_channel=IoanaLiviaPopescu)
 
+ </details>
+ 
+ <details open>
+  <summary> Homework #5: Matrix menu and simple game</summary>
+  
+  ## Matrix Menu and simple game
+  
+  ### Components
+  * Matrix (8x8)
+  * LCD display
+  * Joystick
+  * Resistors and wires (per logic)
+  
+  ### Technical Task
+  
+  Create a menu for your game, emphasis on the game.  Youshould scroll on the LCD with the joystick.  The menu should include the following functionality:
+  <ol>
+  <li>When powering up a game, a greeting message should be shown fora few moments.</li>
+  <li>Should contain roughly the following categories:
+  
+  * *Start game* : 
+    + starts the initial level of your game
+  
+  * *Highscore* :
+  
+    + Initially, we have 0.
+  
+    + Update  it  when  the  game  is  done.   Highest  possible  scoreshould be achieved by starting at a higher level.
+  
+    + Save the top 5+ values in EEPROM with name and score.
+  
+  * *Settings* :
+    + Enter name: The name should be shown in highscore. (Can also be displayed somewhere else too.)
+    
+    + Starting  level:  Set  the  starting  level  value.   The  idea  is  tobe able to start from a higher level as well.  Can be replaced with difficulty.
+    
+    + LCD contrast control (optional, it replaces the potentiome-ter).  Save it to eeprom.
+    
+    + LCD brightness control (mandatory, must change LED wirethat’s directly connected to 5v).  Save it to eeprom.
+    
+    + Matrix brightness control (see function setIntesnity from theledControl library).  Save it to eeprom.
+    
+    + Sounds on or off.  Save it to eeprom.
+    
+    + Extra stuff can include items specific to the game mechanics or other settings such as chosen theme song etc.  Again, save it to eeprom.
+    
+  * *About* : 
+    + Should include details about the creator(s) of the game. At least game name, author and github link or user (use scrolling text?)
+    
+  * *How to play* :
+    + short and informative description
+  
+  </li>
+  <li> While playing the game display relevant information regarding:
+    
+  * Lives
+
+  * Level
+
+  * Score
+
+  * Time (Optional)
+
+  * Player name (Optional)
+    
+  </li>
+  
+  <li> Upon game ending: 
+  
+  * Screen 1: a message such as ”Congratulations on reaching level/scoreX”.  ”You did better than y people.”.  etc.  Switches to screen 2 upon interaction (button press) or after a few moments.
+  
+  * Screen 2:  display relevant game info:  score, time, lives left etc.Must  inform  player  if  he/she  beat  the  highscore. This menu should only be closed by the player, pressing a button.
+  </li>
+</ol>
+
+### Additional information
+
+Keep in mind that you are creating a menu fora game. It should be intuitive and straight down obvious how to use it.  A good test is if you give it to someone that has no idea what it is - are they able to use it easily?  Think about when you pick up a game - the menu feels intuitive. Have fun!
+  
  </details>
