@@ -305,8 +305,8 @@ Keep in mind that you are creating a menu fora game. It should be intuitive and 
 
 ![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%235/%235_picture_setup.jpg)
 
-### [Video](https://youtu.be/KlQk5RJN9Vc) 
-[![](https://img.youtube.com/vi/KlQk5RJN9Vc/0.jpg)](https://youtu.be/KlQk5RJN9Vc)
+### [Video](https://www.youtube.com/watch?v=IzHHsxcb4VQ) 
+[![](https://img.youtube.com/vi/IzHHsxcb4VQ/0.jpg)](https://youtu.be/IzHHsxcb4VQ)
 
 link : https://clipchamp.com/watch/sTHEALz5UJJ
 
