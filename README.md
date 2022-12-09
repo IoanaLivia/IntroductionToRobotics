@@ -251,6 +251,8 @@ Alternative sizing : [512x384](https://github.com/IoanaLivia/IntroductionToRobot
     + Update  it  when  the  game  is  done.   Highest  possible  score should be achieved by starting at a higher level.
   
     + Save the top 5+ values in EEPROM with name and score.
+    
+    + Be able to reset the top 5+ values in EEPROM with name and score.
   
   * *Settings* :
     + Enter name: The name should be shown in highscore. (Can also be displayed somewhere else too.)
