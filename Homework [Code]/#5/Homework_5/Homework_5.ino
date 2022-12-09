@@ -315,26 +315,26 @@ void setup() {
     // current name
     address = currNameStartingAddress;
 
-    for (int i = 0 ; i < nameSize; i++){
+    for (int i = 0 ; i < nameSize; i++) {
       EEPROM.put(address, char(' '));
       address += sizeof(char);
     }
 
-    for (int i = 0 ; i < nameSize; i++){
+    for (int i = 0 ; i < nameSize; i++) {
       display[i] = 'a';
     }
 
     // highscores
     address = highscoreStartingAddress;
     
-    for (int i = 0; i < highscores; i++){
-      for (int j = 0; j < nameSize; j++){
+    for (int i = 0; i < highscores; i++) {
+      for (int j = 0; j < nameSize; j++) {
         EEPROM.put(address, char('?'));
         address += sizeof(char);
       }
     }
     
-    for (int i = 0; i < highscores; i++){
+    for (int i = 0; i < highscores; i++) {
       EEPROM.put(address, 0);
       address += sizeof(int);
     }
@@ -351,14 +351,14 @@ void setup() {
 
   address = highscoreStartingAddress;
     
-  for (int i = 0; i < highscores; i++){
-    for (int j = 0; j < nameSize; j++){
+  for (int i = 0; i < highscores; i++) {
+    for (int j = 0; j < nameSize; j++) {
       EEPROM.get(address, highscoreNames[i][j]);
       address += sizeof(char);
     }
   }
     
-  for (int i=0; i < highscores; i++){
+  for (int i=0; i < highscores; i++) {
     EEPROM.get(address, highscoreValues[i]);
     address += sizeof(int);
   }
@@ -404,7 +404,6 @@ void parseCurrState() {
   }
   else if (currState == SET_BRIGHTNESS) {
     setBrightness();
-    //setMatrixBrightness();
   }
   else if (currState == ENTER_NAME) {
     enterName();
@@ -588,6 +587,7 @@ void parseSettingsOption() {
   }
 
   joystickMove = getJoystickMove();
+	
   if (joystickMove == DOWN) {
     lcd.clear();
     currState = SETTINGS;
@@ -689,7 +689,7 @@ void enterHighscore() {
   lcd.print("Highscores");
   lcd.setCursor(0,1);
 
-  for(int j = 0; j < nameSize; ++j) {
+  for (int j = 0; j < nameSize; ++j) {
     lcd.print(highscoreNames[highscoreIndex][j]);
   }
 
@@ -791,7 +791,7 @@ int getJoystickMove() {
   xChange = abs(initialXValue - xValue);
   yChange = abs(initialYValue - yValue);
 
-  if (!joyMoved) {     // || (currState == START_GAME
+  if (!joyMoved) {     
     if (yChange >= xChange) {
       if (yValue < minThreshold) {
         joyMoved = true;
@@ -828,7 +828,7 @@ void displayFirstEndScreen() {
   lcd.setCursor(0,0);
   lcd.print("Congrats!   ");
 
-  for (int i = 0 ; i < nameSize; i++){
+  for (int i = 0 ; i < nameSize; i++) {
     EEPROM.get(address, currName[i]);
     lcd.print(currName[i]);
     address += sizeof(char);
@@ -864,7 +864,7 @@ void displaySecondEndScreen() {
       }
     }
 
-      if(placeHighscore != -1) {
+      if (placeHighscore != -1) {
         for(int i = 0; i < placeHighscore; ++i) {
           for(int j = 0; j < nameSize; j++) {
             highscoreNames[i][j] = highscoreNames[i + 1][j];
@@ -906,6 +906,7 @@ void displayNumber(const int number, const int cursorRow, int cursorColumn) {
   {
     lcd.print(" ");
   }
+	
   if (number >= 10) {
     lcd.print(digits[(number / 10) % 10]);
   }
@@ -913,6 +914,7 @@ void displayNumber(const int number, const int cursorRow, int cursorColumn) {
   {
     lcd.print(" ");
   }
+	
   cursorColumn += 2;
   lcd.print(digits[number % 10]);
   lcd.setCursor(cursorColumn + 1, cursorRow);
@@ -1007,6 +1009,7 @@ void displayTimer() {
   if (noOfSeconds < 10) {
     lcd.print("0");
   }
+	
   lcd.print(noOfSeconds);
 }
 
@@ -1014,8 +1017,8 @@ void displayLevel() {
   lcd.setCursor(0,1);
   lcd.print("Level ");
   lcd.print(digits[currLevel]);
-  lcd.setCursor(8,1); //
-  lcd.print("  "); //
+  lcd.setCursor(8,1); 
+  lcd.print("  "); 
   lcd.setCursor(10,1);
   lcd.print(difficulty[0]);
 }
@@ -1307,7 +1310,7 @@ void enterName() {
     letterPos = 0;
     letterIndex = 0;
     
-    for (int i = 0 ; i < nameSize; i++){
+    for (int i = 0 ; i < nameSize; i++) {
       display[i] = 'a';
     }
 
@@ -1337,14 +1340,14 @@ void saveName() {
 void saveHighscores() {
   address = highscoreStartingAddress;
     
-  for (int i = 0; i < highscores; i++){
-    for (int j = 0; j < nameSize; j++){
+  for (int i = 0; i < highscores; i++) {
+    for (int j = 0; j < nameSize; j++) {
       EEPROM.put(address, highscoreNames[i][j]);
       address += sizeof(char);
     }
   }
   
-  for (int i = 0; i < highscores; i++){
+  for (int i = 0; i < highscores; i++) {
     EEPROM.put(address, highscoreValues[i]);
     address += sizeof(int);
   }
@@ -1353,14 +1356,14 @@ void saveHighscores() {
 void readHighscores() {
   address = highscoreStartingAddress;
     
-  for (int i = 0; i < highscores; i++){
-    for (int j = 0; j < nameSize; j++){
+  for (int i = 0; i < highscores; i++) {
+    for (int j = 0; j < nameSize; j++) {
       EEPROM.get(address, highscoreNames[i][j]);
       address += sizeof(char);
     }
   }
   
-  for (int i = 0; i < highscores; i++){
+  for (int i = 0; i < highscores; i++) {
     EEPROM.get(address, highscoreValues[i]);
     address += sizeof(int);
   }
