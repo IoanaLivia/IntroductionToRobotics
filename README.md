@@ -312,7 +312,7 @@ Keep in mind that you are creating a menu fora game. It should be intuitive and 
 
 ### Picture of setup
 
-![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%235/%235_picture_setup.jpg)
+![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%235/%235_pictureSetup.jpg)
 
 ### [Video](https://youtu.be/IzHHsxcb4VQ) 
 [![](https://img.youtube.com/vi/IzHHsxcb4VQ/0.jpg)](https://youtu.be/IzHHsxcb4VQ)
