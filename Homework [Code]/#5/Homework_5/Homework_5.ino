@@ -969,9 +969,7 @@ void displaySecondEndScreen() {
   if (placeHighscore != -1) {
     lcd.setCursor(0,1);
     displayMatrix(highscoreBitmap);
-    lcd.print("Place ");
-    lcd.print(placeHighscore);
-    lcd.print("/ Top 5!");
+    lcd.print("is in Top 5 !!!");
   }
   else
   { 
