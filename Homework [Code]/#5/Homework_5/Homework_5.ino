@@ -22,6 +22,10 @@
 #define SET_DIFFICULTY 11
 #define SET_MATRIX_BRIGHTNESS 12
 #define SET_LCD_BRIGHTNESS 13
+#define RESET_HIGHSCORES 14
+
+#define LCD_BRIGHTNESS_FACTOR 20
+
 
 // joystick movement directions
 #define UP 0
@@ -49,7 +53,7 @@ const byte buzzerPin = 3;
 const byte rs = 9,
            en = 8,
            d4 = 7,
-           d5 = 6,
+           d5 = 13,
            d6 = 5,
            d7 = 4;
 
@@ -155,14 +159,10 @@ const byte charStar[8] = {
 };
 
 // control of the matrix's leds and lcd display
-
 LedControl lc = LedControl(dinPin, clockPin, loadPin, 1); 
-
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-
-// memory starting addresses for EEPROM
-
+// memory addresses for EEPROM
 const int matrixBrightnessAddress = 0,
           soundAddress = 2,
           currNameStartingAddress = 20,
@@ -170,37 +170,42 @@ const int matrixBrightnessAddress = 0,
           highscoreStartingAddress = 30,
           ledBrightnessAddress = 100;
 
+// universal variable used to temporarly store different addresses
 int address;
 
+// when the current game started
+unsigned long gameStartTime = 0;
+
+// in-game variables
 int lifes = 3,
     currScore = -1,
     noOfMinutes = 0,
-    noOfSeconds = 0;
+    noOfSeconds = 0,
+    currLevel = 1;
 
-int currLevel = 1, 
-    diffIndex = 1, 
+// index of the current option for and total number of options for menus and submenus or game settings (difficulty, brightness, etc)
+int diffIndex = 1, 
     diffOptions = 3,
     aboutIndex = 1,
     aboutOptions = 6,
     settingsIndex = 1,
-    settingsOptions = 5,
+    settingsOptions = 6,
     howToIndex = 1,
     howToOptions = 8,
     soundIndex = 1,
     soundOptions = 3,
-    letterPos = 0,
+    menuIndex = 1,
+    menuOptions = 6,
     letterIndex = 0,
+    letterPos = 0,
     brightnessOptionIndex = 1;
 
-unsigned long gameStartTime = 0;
+int currState = WELCOME;
 
+// states of switch and buzzer
 byte swState = LOW,
-     lastSwState = LOW;
-
-int currState = WELCOME,
-    menuOptions = 6,
-    menuIndex = 1,
-    startingLevel = 0;
+     lastSwState = LOW,
+     buzzerState = LOW;
 
 int switchPress = NONE,
     joystickMove = NONE,
@@ -211,15 +216,19 @@ bool passedShortDelay = false,
      canScrollUp = false,
      joyMoved = false;
 
+// last time a message has been displayed on lcd, last debounce time for switch press and last blink time for food
 unsigned long lastMessageTime = -1,
-              lastDebounceTime = 0;
+              lastDebounceTime = 0,
+              lastBlinkTime = 0;
 
-bool inLevel = true;
-
-unsigned long lastBlinkTime = 0;
+const int blinkInterval = 300,
+          debounceDelayLong = 3000,
+          debounceDelay = 100;
 
 // variables for current position of food and its state : collected / not collected
-int foodCol = 0, foodRow = 0;
+int foodCol = 0,
+    foodRow = 0;
+
 bool collectedFood = false;
 
 // joystick movement x axis and y axis initial, current and change values
@@ -234,28 +243,13 @@ int initialXValue = 510,
 int minThreshold = 250,
     maxThreshold = 750;
 
-const int blinkInterval = 300,
-          debounceDelayLong = 3000,
-          debounceDelay = 100,
-          muxDelay = 1;
-
-// custom char arrays for displaying text on the lcd
-
+// custom char array to display digits on the lcd
 const char digits[10] = {'0','1','2','3','4','5','6','7','8','9'};
 
 const char difficulty[][16] = {
   {'E','A','S','Y',' ',' '},
   {'M','E','D','I','U','M'},
   {'H','A','R','D',' ',' '},
-};
-
-const char beginMatrix[][16] = {
-  {'O', 'n', 'e', ' ', 'o', 'f', ' ', 't', 'h', 'e', ' ', 'b', 'e', 's', 't', ' '},
-  {'g', 'a', 'm', 'e', 's', ' ', 'i', 's', ' ', 'b', 'a', 'c', 'k', '!', ' ', ' '},
-  {'I', ' ', 'h', 'o', 'p', 'e', ' ', 'y', 'o', 'u', ' ', 'a', 'r', 'e', ' ', ' '},
-  {'r', 'e', 'a', 'd', 'y', ' ', 'f', 'o', 'r', ' ', 'i', 't', ' ', '.', '.', '.'},
-  {'W', 'e', 'l', 'c', 'o', 'm', 'e', ' ', 't', 'o',  ' ', 'S', 'n', 'a', 'k', 'e'},
-  {' ', ' ', ' ', ' ', 'R', 'e', 'd', 'e', 'e', 'm', 'e', 'd', ' ', ' ', ' ', ' '},
 };
 
 const char levelMatrix[][16] = {
@@ -268,37 +262,35 @@ const char levelMatrix[][16] = {
 int currRow = 4,
     currCol = 4;
 
+const int maxLcdBrightness = 255;
 int matrixBrightness = 2;
 
 const int highscores = 5,
           nameSize = 3;
 
-char highscoreNames[highscores][nameSize];
-int highscoreValues[highscores];
-char currName[nameSize];
-char display[nameSize];
+char currName[nameSize],
+     nameDisplay[nameSize],
+     highscoreNames[highscores][nameSize];
 
+int highscoreValues[highscores];
 
 // initialize with true to reinitialize EEPROM
 bool initEEPROM = false;
 
 // highscore variables for placement achieved and iteration
 int placeHighscore = -1,
-    highscoreIndex = highscores - 1;
+    highscoreIndex = highscores - 1,
+    ledBrightness = 10;
 
-//const byte lcdBacklightPin = 6;
+const byte lcdBacklightPin = 6;
+
+bool inLevel = true;
 
 void setup() {
   pinMode(pinSW, INPUT_PULLUP);
 
-  matrixBrightness = 2;
-  EEPROM.put(matrixBrightnessAddress, matrixBrightness);
-
   lc.shutdown(0, false);
-  lc.setIntensity(0, matrixBrightness);
   lc.clearDisplay(0);
-
-  EEPROM.put(soundAddress, LOW);
 
   lcd.begin(16, 2);
 
@@ -321,7 +313,7 @@ void setup() {
     }
 
     for (int i = 0 ; i < nameSize; i++) {
-      display[i] = 'a';
+      nameDisplay[i] = 'a';
     }
 
     // highscores
@@ -345,8 +337,28 @@ void setup() {
     EEPROM.put(soundAddress, LOW);
 
     // led brightness
-    EEPROM.put(ledBrightnessAddress, 255);
+    EEPROM.put(ledBrightnessAddress, maxLcdBrightness);
+    analogWrite(lcdBacklightPin, maxLcdBrightness);
 
+    // matrix brightness
+    matrixBrightness = 2;
+    EEPROM.put(matrixBrightnessAddress, matrixBrightness);
+    lc.setIntensity(0, matrixBrightness);
+
+  }
+  else {
+    setupEEPROM();
+  }
+
+  currState = WELCOME;
+}
+
+void setupEEPROM() {
+  address = currNameStartingAddress;
+
+  for (int i = 0 ; i < nameSize; i++) {
+    EEPROM.get(address, currName[i]);
+    address += sizeof(char);
   }
 
   address = highscoreStartingAddress;
@@ -363,9 +375,21 @@ void setup() {
     address += sizeof(int);
   }
 
-  currState = WELCOME;
-}
+  // difficulty
+  EEPROM.get(currDiffAddress, diffIndex);
+  
+  // sound
+  EEPROM.get(soundAddress, buzzerState);
+  assignStateToBuzzer(200, buzzerState);
 
+  // led brightness
+  EEPROM.put(ledBrightnessAddress, ledBrightness);
+  analogWrite(lcdBacklightPin, ledBrightness * LCD_BRIGHTNESS_FACTOR);
+
+  // matrix brightness
+  EEPROM.get(matrixBrightnessAddress, matrixBrightness);
+  lc.setIntensity(0, matrixBrightness);
+}
 
 void loop() {
  parseCurrState();
@@ -408,14 +432,71 @@ void parseCurrState() {
   else if (currState == ENTER_NAME) {
     enterName();
   }
-  else if(currState == SET_MATRIX_BRIGHTNESS ) {
+  else if (currState == SET_MATRIX_BRIGHTNESS) {
     setMatrixBrightness();
   }
-  else if(currState == SET_LCD_BRIGHTNESS ) {
+  else if (currState == SET_LCD_BRIGHTNESS) {
     setLcdBrightness();
+  }
+  else if (currState == RESET_HIGHSCORES) {
+    resetHighscores();
   }
 }
 
+void enterWelcome() {
+  const char beginMatrix[][16] = {
+    {'O', 'n', 'e', ' ', 'o', 'f', ' ', 't', 'h', 'e', ' ', 'b', 'e', 's', 't', ' '},
+    {'g', 'a', 'm', 'e', 's', ' ', 'i', 's', ' ', 'b', 'a', 'c', 'k', '!', ' ', ' '},
+    {'I', ' ', 'h', 'o', 'p', 'e', ' ', 'y', 'o', 'u', ' ', 'a', 'r', 'e', ' ', ' '},
+    {'r', 'e', 'a', 'd', 'y', ' ', 'f', 'o', 'r', ' ', 'i', 't', ' ', '.', '.', '.'},
+    {'W', 'e', 'l', 'c', 'o', 'm', 'e', ' ', 't', 'o',  ' ', 'S', 'n', 'a', 'k', 'e'},
+    {' ', ' ', ' ', ' ', 'R', 'e', 'd', 'e', 'e', 'm', 'e', 'd', ' ', ' ', ' ', ' '},
+  };
+
+  displayMatrix(welcomeBitmap);
+  displayText(beginMatrix, 6);
+}
+
+void resetHighscores() {
+  // reinitialize values at corresponding memory addresses
+  address = highscoreStartingAddress;
+    
+  for (int i = 0; i < highscores; i++) {
+    for (int j = 0; j < nameSize; j++) {
+      EEPROM.put(address, char('?'));
+      address += sizeof(char);
+    }
+  }
+  
+  for (int i = 0; i < highscores; i++) {
+    EEPROM.put(address, int(0));
+    address += sizeof(int);
+  }
+
+  // reinitialize highscoreNames and highscoreValues
+  address = highscoreStartingAddress;
+    
+  for (int i = 0; i < highscores; i++) {
+    for (int j = 0; j < nameSize; j++) {
+      EEPROM.get(address, highscoreNames[i][j]);
+      address += sizeof(char);
+    }
+  }
+    
+  for (int i=0; i < highscores; i++) {
+    EEPROM.get(address, highscoreValues[i]);
+    address += sizeof(int);
+  }
+
+  // go back to settings
+  joystickMove = getJoystickMove();
+	
+  if (joystickMove == DOWN) {
+    lcd.clear();
+    currState = SETTINGS;
+  }
+
+}
 
 void assignStateToBuzzer(int buzzerTone, byte buzzerState) {
   if (buzzerState == HIGH) {
@@ -440,16 +521,11 @@ void setBrightness() {
   switchPress = getSwitchPress();
 
   if (switchPress != NONE) {
-    parseBrightnessOption();
+    parseBrightnessOption(brightnessOptionIndex);
   }
 } 
 
-void enterWelcome() {
-  displayMatrix(welcomeBitmap);
-  displayText(beginMatrix, 6);
-}
-
-void parseBrightnessOption() {
+void parseBrightnessOption(const int brightnessOptionIndex) {
   lcd.clear();
 
   if (brightnessOptionIndex == 1) {
@@ -461,6 +537,7 @@ void parseBrightnessOption() {
   }
 
   joystickMove = getJoystickMove();
+
   if (joystickMove == DOWN) {
     lcd.clear();
     currState = SETTINGS;
@@ -489,6 +566,7 @@ void enterMenu() {
   };
 
   displayMatrix(welcomeBitmap);
+
   scrollThrough(menuMatrix, menuOptions, menuIndex, MENU, 1, menuOptions - 1, 1);
 
   switchPress = getSwitchPress();
@@ -504,6 +582,7 @@ void enterGame() {
   displayLcdGame();  
 
   if (lifes == 0) {
+    inLevel = false;
     lcd.clear();
     currState = END_GAME;
   }
@@ -527,6 +606,7 @@ void enterSettings() {
     {'B', 'r', 'i', 'g', 'h', 't', 'n', 'e', 's', 's', ' ', ' ', ' ', ' ', ' '},
     {'S', 'o', 'u', 'n', 'd', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
     {'D', 'i', 'f', 'f', 'i', 'c', 'u', 'l', 't', 'y', ' ', ' ', ' ', ' ', ' '},
+    {'R', 'e', 's', 'e', 't', ' ', 'T', 'o', 'p', ' ', '5', ' ', ' ', ' ', ' '},
   };
 
   displayMatrix(settingsBitmap);
@@ -536,7 +616,7 @@ void enterSettings() {
 
   if (switchPress != NONE) {
     lcd.clear();
-    parseSettingsOption();
+    parseSettingsOption(settingsIndex);
   }
 }
 
@@ -564,12 +644,12 @@ void setSound() {
     }
 
     EEPROM.get(soundAddress, buzzerState);
-    assignStateToBuzzer(700, buzzerState);
+    assignStateToBuzzer(200, buzzerState);
   }
 
 }
 
-void parseSettingsOption() {
+void parseSettingsOption(const int settingsIndex) {
   lcd.clear();
 
   if (settingsIndex == 1) {
@@ -585,12 +665,13 @@ void parseSettingsOption() {
   else if (settingsIndex == 4) {
     currState = SET_DIFFICULTY;
   }
+  else if (settingsIndex == 5) {
+    lcd.setCursor(0,0);
+    lcd.print("Top 5 highscores");
+    lcd.setCursor(0,1);
+    lcd.print("are now reseted!");
 
-  joystickMove = getJoystickMove();
-	
-  if (joystickMove == DOWN) {
-    lcd.clear();
-    currState = SETTINGS;
+    currState = RESET_HIGHSCORES;
   }
 }
 
@@ -611,7 +692,7 @@ void enterAbout() {
     {'S', 'n', 'a', 'k', 'e', ' ', 'R', 'e', 'd', 'e', 'e', 'm', 'e', 'd', ' '},
     {'A', 'u', 't', 'h', 'o', 'r', ' ', 'I', 'o', 'a', 'n', 'a', ' ', ' ', ' '},
     {'L', 'i', 'v', 'i', 'a', ' ', 'P', 'o', 'p', 'e', 's', 'c', 'u', ' ', ' '},
-    {'G', 'i', 't', 'h', 'u', 'b', ' ', 'A', 'c', 'c', 'o', 'u', 'n', 't', ' '},
+    {'G', 'i', 't', 'h', 'u', 'b', ' ', 'U', 's', 'e', 'r', 'n', 'a', 'm', 'e'},
     {'I', 'o', 'a', 'n', 'a', 'L', 'i', 'v', 'i', 'a', ' ', ' ', ' ', ' ', ' '},
   };
 
@@ -648,6 +729,7 @@ void scrollThrough(const char matrix[][16], const int options, int &index, const
   }
   else if (joystickMove == DOWN) {
     lcd.clear();
+    index = lowerBoundIndex;
     currState = returnToState;
   }
 
@@ -700,18 +782,21 @@ void enterHighscore() {
   joystickMove = getJoystickMove();
 
   if (joystickMove == LEFT) {
-    highscoreIndex = max(highscoreIndex - 1, 0);
+    //highscoreIndex = max(highscoreIndex - 1, 0);
+     highscoreIndex = min(highscoreIndex + 1, highscores - 1);
   }  
   else if (joystickMove == RIGHT) {
-    highscoreIndex = min(highscoreIndex + 1, highscores - 1);
+    //highscoreIndex = min(highscoreIndex + 1, highscores - 1);
+    highscoreIndex = max(highscoreIndex - 1, 0);
   }
   else if (joystickMove == DOWN) {
     lcd.clear();
+    highscoreIndex = highscores - 1;
     currState = MENU;
   }
 
-  canScrollUp = !(highscoreIndex == 0);
-  canScrollDown = !(highscoreIndex == highscores - 1);
+  canScrollUp = !(highscoreIndex == highscores - 1);
+  canScrollDown = !(highscoreIndex == 0);
 }
 
 void endGame() {
@@ -857,7 +942,7 @@ void displaySecondEndScreen() {
   displayNumber(currScore, 0, 12);
 
   if (placeHighscore == -1) {
-    for (int i = highscores - 1; i >= 0; i--){
+    for (int i = highscores - 1; i >= 0; i--) {
       if (currScore > highscoreValues[i] && currScore != 0) {
         placeHighscore = i;
         break;
@@ -881,10 +966,12 @@ void displaySecondEndScreen() {
     }
   }
 
-  if(placeHighscore != -1){
+  if (placeHighscore != -1) {
     lcd.setCursor(0,1);
     displayMatrix(highscoreBitmap);
-    lcd.print("New in Top 5!!!");
+    lcd.print("Place ");
+    lcd.print(placeHighscore);
+    lcd.print("/ Top 5!");
   }
   else
   { 
@@ -921,7 +1008,7 @@ void displayNumber(const int number, const int cursorRow, int cursorColumn) {
 }
 
 // universal display matrix function based on bitmap
-void displayMatrix(byte matrix[][8]) {
+void displayMatrix(const byte matrix[][8]) {
   for (int row = 0; row < matrixSize; row++) {
     for (int col = 0; col < matrixSize; col++) {
       lc.setLed(0, row, col, matrix[row][col]);
@@ -1001,7 +1088,7 @@ void displayTimer() {
 
   noOfSeconds = (millis() - gameStartTime) / 1000 -  60 * noOfMinutes;
 
-  if(noOfSeconds >= 60) {
+  if (noOfSeconds >= 60) {
     noOfMinutes++;
     noOfSeconds -= 60;
   }
@@ -1052,11 +1139,11 @@ void displayText(const char matrix[][16], const int noOfLines) {
     lastMessageTime = -1;
     columnIndex = 0;
     lineIndex += 1;
-    if(lineIndex == noOfLines) {
+    if (lineIndex == noOfLines) {
       lcd.clear();
       currState = MENU;
     }
-    if(cursorRow == 1) {
+    if (cursorRow == 1) {
       lcd.clear();
       cursorRow = 0;
     }
@@ -1068,9 +1155,9 @@ void displayText(const char matrix[][16], const int noOfLines) {
 
 void generateFood() {
   static bool expiredFoodTime = false;
-  static long generatedFood = 0;
-  static long foodOnScreenInterval = 0;
   static int intervalMultiplier = 10000;
+  static long generatedFood = 0,
+            foodOnScreenInterval = 0;
 
   foodOnScreenInterval = (diffOptions - EEPROM.read(currDiffAddress)) * intervalMultiplier;
 
@@ -1081,12 +1168,14 @@ void generateFood() {
       generatedFood = millis();
       expiredFoodTime = false;
       foodCol = rand() % 8, foodRow = rand() % 8;
-      if(foodCol == currCol && foodRow == currRow) { // avoid same position
+
+      // avoid the case when the food spawns on the current position of the player, could lead to confusion
+      if (foodCol == currCol && foodRow == currRow) { 
         foodCol--;
       }
     }
 
-    if(millis() - generatedFood >= foodOnScreenInterval) {
+    if (millis() - generatedFood >= foodOnScreenInterval) {
       expiredFoodTime = true;
       lc.setLed(0, foodCol, foodRow, 0);
     }
@@ -1129,8 +1218,7 @@ void inGameMovement() {
       currRow = max(currRow - 1, 0);
     }
 
-    
-    if(currCol == foodCol && currRow == foodRow) {
+    if (currCol == foodCol && currRow == foodRow) {
       collectedFood = true;
       lc.setLed(0, foodCol, foodRow, 0);
       currScore += 1;
@@ -1158,6 +1246,7 @@ void parseMenuOption(const int menuIndex) {
       gameStartTime = millis();
       lastJoystickMove = NONE;
       placeHighscore = -1;
+      inLevel = true;
       enterGame();
     }
     if (menuIndex == 2) {
@@ -1210,9 +1299,6 @@ void setDifficulty() {
 }
 
 void setMatrixBrightness() {
-  static int matrixBrightness = 2;
-
-  lc.setIntensity(0, matrixBrightness);
   lcd.setCursor(0,0);
   lcd.print("Brightness:");
   lcd.setCursor(0,1);
@@ -1231,18 +1317,20 @@ void setMatrixBrightness() {
     matrixBrightness = min(matrixBrightness + 1, 15);
     EEPROM.put(matrixBrightnessAddress, matrixBrightness);
   }
-  else if (joystickMove == DOWN) {
+
+    EEPROM.get(matrixBrightnessAddress, matrixBrightness);
+  lc.setIntensity(0, matrixBrightness);
+  
+  if (joystickMove == DOWN) {
     lcd.clear();
     currState = SET_BRIGHTNESS;
   }
 
-  canScrollUp = !(matrixBrightness == 15);
-  canScrollDown = !(matrixBrightness == 0);
+  canScrollUp = !(matrixBrightness == 0);
+  canScrollDown = !(matrixBrightness == 15);
 }
 
 void setLcdBrightness() {
-  static int ledBrightness = 255;
-
   EEPROM.get(ledBrightnessAddress, ledBrightness);
 
   lcd.setCursor(0,0);
@@ -1251,18 +1339,18 @@ void setLcdBrightness() {
   lcd.print(ledBrightness);
   displayArrows();
 
-  //analogWrite(lcdBacklightPin, ledBrightness);
+  analogWrite(lcdBacklightPin, ledBrightness * 20);
 
   joystickMove = getJoystickMove();
 
   if (joystickMove == LEFT) {
     lcd.clear();
-    ledBrightness = min(ledBrightness + 10, 255);
+    ledBrightness = min(ledBrightness + 1, 10);
     EEPROM.put(ledBrightnessAddress, ledBrightness);
   }  
   else if (joystickMove == RIGHT) {
     lcd.clear();
-    ledBrightness = max(ledBrightness - 10, 0);
+    ledBrightness = max(ledBrightness - 1, 0);
     EEPROM.put(ledBrightnessAddress, ledBrightness);
   }
   else if (joystickMove == DOWN) {
@@ -1271,7 +1359,7 @@ void setLcdBrightness() {
     currState = SET_BRIGHTNESS;
   }
 
-  canScrollUp = !(ledBrightness == 255);
+  canScrollUp = !(ledBrightness == 10);
   canScrollDown = !(ledBrightness == 0);
 }
 
@@ -1288,17 +1376,16 @@ void enterName() {
   lcd.print("Max:3");
   displayArrows();
 
-
   if (joystickMove == LEFT) {
     letterIndex = max(letterIndex - 1, 0);
-    display[letterPos] = letters[letterIndex];
+    nameDisplay[letterPos] = letters[letterIndex];
   }  
   else if (joystickMove == RIGHT) {
     letterIndex = min(letterIndex + 1, 26);
-    display[letterPos] = letters[letterIndex];
+    nameDisplay[letterPos] = letters[letterIndex];
   }
   else if (joystickMove == UP) {
-    display[letterPos] = letters[letterIndex];
+    nameDisplay[letterPos] = letters[letterIndex];
     letterPos += 1;
     letterIndex = 0;
     if (letterPos == nameSize) {
@@ -1311,7 +1398,7 @@ void enterName() {
     letterIndex = 0;
     
     for (int i = 0 ; i < nameSize; i++) {
-      display[i] = 'a';
+      nameDisplay[i] = 'a';
     }
 
     currState = SETTINGS;
@@ -1331,25 +1418,9 @@ void enterName() {
 void saveName() {
   address = currNameStartingAddress;
 
-  for (int i = 0 ; i < nameSize; i++){
-    EEPROM.put(address, display[i]);
+  for (int i = 0 ; i < nameSize; i++) {
+    EEPROM.put(address, nameDisplay[i]);
     address += sizeof(char);
-  }
-}
-
-void saveHighscores() {
-  address = highscoreStartingAddress;
-    
-  for (int i = 0; i < highscores; i++) {
-    for (int j = 0; j < nameSize; j++) {
-      EEPROM.put(address, highscoreNames[i][j]);
-      address += sizeof(char);
-    }
-  }
-  
-  for (int i = 0; i < highscores; i++) {
-    EEPROM.put(address, highscoreValues[i]);
-    address += sizeof(int);
   }
 }
 
@@ -1365,6 +1436,22 @@ void readHighscores() {
   
   for (int i = 0; i < highscores; i++) {
     EEPROM.get(address, highscoreValues[i]);
+    address += sizeof(int);
+  }
+}
+
+void saveHighscores() {
+  address = highscoreStartingAddress;
+    
+  for (int i = 0; i < highscores; i++) {
+    for (int j = 0; j < nameSize; j++) {
+      EEPROM.put(address, highscoreNames[i][j]);
+      address += sizeof(char);
+    }
+  }
+  
+  for (int i = 0; i < highscores; i++) {
+    EEPROM.put(address, highscoreValues[i]);
     address += sizeof(int);
   }
 }
