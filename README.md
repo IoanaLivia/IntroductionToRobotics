@@ -304,6 +304,12 @@ Keep in mind that you are creating a menu fora game. It should be intuitive and 
   
 ### [Coding task](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Homework%20%5BCode%5D/%235/Homework_5/Homework_5.ino)
 
+*Game description* 
+
+* Mini-game implies a player that can move horizontally and vertically using the joystick. (WASD)
+* Food is to be collected by collected and  represented by a blinking matrix led. Food spawns and stays on the screen for a certain amount of time depending on chosen difficulty. It dissapears from the screen if collected or if a certain amount of time has passed and it has not been collected. 
+* The lcd displays number of lifes, current score, timer, level and difficulty. The player loses a life if he crashes into an edge. The game ends when the player has no more lifes left.
+
 ### Picture of setup
 
 ![](https://github.com/IoanaLivia/IntroductionToRobotics/blob/main/Assets/%235/%235_picture_setup.jpg)
