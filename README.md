@@ -317,8 +317,5 @@ Keep in mind that you are creating a menu fora game. It should be intuitive and 
 ### [Video](https://youtu.be/j9jpJjukvmA) 
 [![](https://img.youtube.com/vi/j9jpJjukvmA/0.jpg)](https://youtu.be/j9jpJjukvmA)
 
-[the above version of the video was still processing at the time of submit] [Previous version](https://www.youtube.com/watch?v=hprsvY_i4zI&t=97s&ab_channel=IoanaLiviaPopescu)
-
-
 
  </details>
